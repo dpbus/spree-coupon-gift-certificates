@@ -1,0 +1,14 @@
+<%= render :partial => 'admin/shared/configuration_menu' %>
+
+<h1>Gift Cert Increments</h1>
+
+<table>
+  <tr>
+    <th scope="row">Gift Cert Increments:</th> 
+    <td><%=  Spree::CouponGiftCertificates::Config[:values] %></td>
+  </tr>
+</table>
+
+<p><%= link_to_with_icon 'edit', t("edit"), edit_admin_cgc_settings_path %></p>
+
+

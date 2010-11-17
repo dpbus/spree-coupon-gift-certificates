@@ -1,0 +1,15 @@
+<%= render :partial => 'admin/shared/configuration_menu' %>
+
+<h1>Gift Certificate Settings</h1>
+
+<% form_tag(admin_cgc_settings_path, :method => :put) do -%>
+  <p>
+    <label>Gift Certificate Increments:</label>
+    <%= text_field_tag('preferences[values]', Spree::CouponGiftCertificates::Config[:values]) %>
+  </p>
+
+  <p class="form-buttons">
+    <%= button t('update') %> 
+    <%= t("or") %> <%= link_to t("cancel"), admin_cgc_settings_url %>
+  </p>
+<% end -%>

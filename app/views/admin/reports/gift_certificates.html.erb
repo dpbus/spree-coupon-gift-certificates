@@ -1,0 +1,19 @@
+<h1>Gift Certificate Usage</h1>
+
+<table class="admin-report">
+  <tr>
+    <th>blah</th>
+    <th></th>
+  </tr>
+  <% @coupons.each do |coupon| -%>
+  <tr>
+    <td><%= coupon.code %></td>
+    <td><%= number_to_currency coupon.calculator.preferred_amount %></td>
+    <td><%= link_to "Order", admin_orders_url(coupon.line_item.order) %></td>
+  </tr>
+  <% end -%>
+  <tr>
+    <th>blah</th>
+    <th></th>
+  </tr>
+</table>

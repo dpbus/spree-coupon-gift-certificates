@@ -13,13 +13,13 @@ class CouponGiftCertificatesExtension < Spree::Extension
   # end
   
   def activate
-    Admin::ReportsController.send(:include, Spree::CouponGiftCertificates::ReportsController)
     Order.send(:include, Spree::CouponGiftCertificates::Order)
     Product.send(:include, Spree::CouponGiftCertificates::Product)
+    Coupon.send(:include, Spree::CouponGiftCertificates::Coupon)
   
     LineItem.class_eval do
-      has_one :line_item_coupon
-      has_one :coupon, :through => :line_item_coupon
+      has_many :line_item_coupon
+      has_many :coupons, :through => :line_item_coupon
     end
 
     Coupon.class_eval do

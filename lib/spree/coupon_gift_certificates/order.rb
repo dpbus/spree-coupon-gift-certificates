@@ -11,17 +11,19 @@ module Spree::CouponGiftCertificates::Order
 
     line_items.each do |line_item|
       if line_item.variant.product.is_gift_cert?
-        coupon = Coupon.create(:code => generate_coupon_code,
+        line_item.quantity.times do 
+          coupon = Coupon.create(:code => generate_coupon_code,
                                :description => "Gift Certificate",
-                               :combine => false,
+                               :combine => true,
                                :calculator => Calculator::FlatRate.new)
-        coupon.calculator.update_attribute(:preferred_amount, line_item.variant.price)
-        line_item.coupon = coupon
+          coupon.calculator.update_attribute(:preferred_amount, line_item.variant.price)
+          line_item.coupons << coupon
+        end
         line_item.save
       end
     end
 
-    coupon_credits.select { |coupon_credit| coupon_credit.adjustment_source =~ /^giftcert-/}.each do |coupon_credit|
+    coupon_credits.select { |coupon_credit| coupon_credit.adjustment_source.code =~ /^giftcert-/}.each do |coupon_credit|
       coupon = coupon_credit.adjustment_source
       amount = coupon.calculator.preferred_amount - item_total
       coupon.calculator.update_attribute(:preferred_amount, amount < 0 ? 0 : amount)

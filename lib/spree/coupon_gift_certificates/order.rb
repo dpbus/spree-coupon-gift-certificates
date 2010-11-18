@@ -25,7 +25,7 @@ module Spree::CouponGiftCertificates::Order
 
     coupon_credits.select { |coupon_credit| coupon_credit.adjustment_source.code =~ /^giftcert-/}.each do |coupon_credit|
       coupon = coupon_credit.adjustment_source
-      amount = coupon.calculator.preferred_amount - item_total
+      amount = coupon.calculator.preferred_amount - (item_total + charges.total)
       coupon.calculator.update_attribute(:preferred_amount, amount < 0 ? 0 : amount)
     end
   end

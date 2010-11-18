@@ -24,6 +24,13 @@ class CouponGiftCertificateMigration < ActiveRecord::Migration
 
     Property.create(:name => "gift_cert", :presentation => "Gift Certificate", :created_at => Time.now)
     ProductProperty.create(:product_id => product.id, :value => 1, :property_id => Property.find_by_name("gift_cert").id)
+  
+    p1 = PaymentMethod.new({ :name => "Gift Certificate", :description => "Gift Certificate", :environment => "development", :active => true })
+    p1.type = "PaymentMethod::GiftCertificate"
+    p1.save
+    p2 = PaymentMethod.new({ :name => "Gift Certificate", :description => "Gift Certificate", :environment => "production", :active => true })
+    p2.type = "PaymentMethod::GiftCertificate"
+    p2.save
   end
 
   def self.down

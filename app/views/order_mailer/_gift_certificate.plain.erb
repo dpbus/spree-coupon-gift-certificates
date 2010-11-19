@@ -1,0 +1,11 @@
+<% if @order.purchased_gift_certs? -%>
+Gift Certificates
+=================
+Your have purchased one or more gift certificates. Please pass the following gift certificate code to be redeemed at your next purchase:
+<% @order.line_items.select { |li| li.product.is_gift_cert? }.collect { |li| li.coupons }.flatten.each_with_index do |coupon, i| -%>
+
+Gift Certificate #<%= (i+1).to_s %>:
+Value: <%= number_to_currency coupon.line_item.price %>
+Code: <%= coupon.code %>
+<% end -%>
+<% end -%>

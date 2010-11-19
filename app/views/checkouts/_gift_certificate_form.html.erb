@@ -1,0 +1,6 @@
+<% form_for @checkout, :url => object_url, :html => { :id => 'gift-cert-form'} do |summary_form| %>
+  <p>Do you have a gift certificate you would like to apply to this purchase?</p>
+  <%= summary_form.text_field :coupon_code, :id => 'coupon-code', :size => 14 %>
+  <input id="post-summary" type="submit" value="Apply"/>
+  <input type="hidden" name="step" value="<%= @prev_state %>"/>
+<% end -%>

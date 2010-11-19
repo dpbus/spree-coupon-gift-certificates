@@ -7,8 +7,6 @@ module Spree::CouponGiftCertificates::Order
   end
 
   def cgc_complete_order
-    spree_complete_order
-
     line_items.each do |line_item|
       if line_item.variant.product.is_gift_cert?
         line_item.quantity.times do 
@@ -28,6 +26,8 @@ module Spree::CouponGiftCertificates::Order
       amount = coupon.calculator.preferred_amount - (item_total + charges.total)
       coupon.calculator.update_attribute(:preferred_amount, amount < 0 ? 0 : amount)
     end
+
+    spree_complete_order
   end
 
   def generate_coupon_code
@@ -41,5 +41,9 @@ module Spree::CouponGiftCertificates::Order
     else
       return code
     end
+  end
+
+  def purchased_gift_certs?
+    line_items.collect { |li| li.product }.any? { |p| p.is_gift_cert? } 
   end
 end

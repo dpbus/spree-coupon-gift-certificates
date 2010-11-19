@@ -15,5 +15,4 @@ This extension works with Spree 0.10 and 0.11 versions.
 
 ## To insert special form, include:
 <%= render :partial => 'gift_certificate_form' if @checkout.state == 'payment' %> in the checkouts/edit template
-
-## Note that this must not be INSIDE the payment checkout form
+* Note that this must not be INSIDE the payment checkout form

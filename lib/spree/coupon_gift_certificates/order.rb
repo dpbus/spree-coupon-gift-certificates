@@ -20,8 +20,11 @@ module Spree::CouponGiftCertificates::Order
         line_item.save
       end
     end
+    
+    increments = OptionType.find_by_name("gift_cert_increments").option_values.map {|v| v.name.split("$").last }
+    gc_regex = Regexp.new("^RT[#{increments.join('|')}]\d{4,}")
 
-    coupon_credits.select { |coupon_credit| coupon_credit.adjustment_source.code =~ /^giftcert-/}.each do |coupon_credit|
+    coupon_credits.select { |coupon_credit| coupon_credit.adjustment_source.code =~ gc_regex}.each do |coupon_credit|
       coupon = coupon_credit.adjustment_source
       amount = coupon.calculator.preferred_amount - (item_total + charges.total)
       coupon.calculator.update_attribute(:preferred_amount, amount < 0 ? 0 : amount)

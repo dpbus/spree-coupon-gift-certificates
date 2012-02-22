@@ -12,7 +12,7 @@ module Spree::CouponGiftCertificates::CouponCredit
     
     return 0 if order.line_items.empty?
     amount = adjustment_source.calculator.compute(order.line_items).abs
-    order_total = adjustment_source.code =~ gc_regex ? order.item_total + order.charges.total : order.item_total
+    order_total = adjustment_source.code =~ gc_regex ? order.item_total + order.charge_total : order.item_total
     amount = order_total if amount > order_total
     -1 * amount
   end 
